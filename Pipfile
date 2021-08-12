@@ -9,6 +9,7 @@ mongoengine = "*"
 flask-restful = "*"
 flask-jwt-extended = "*"
 bcrypt = "*"
+redis = "*"
 
 [dev-packages]
 
