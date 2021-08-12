@@ -1,7 +1,7 @@
 import base64
 import re
 from uuid import uuid4
-from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, get_jwt
 from flask_restful import Resource, request
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -121,9 +121,9 @@ class RegisterUser(Resource):
 # app.config["JWT_ACCESS_TOKEN_EXPIRES"] = ACCESS_EXPIRES
 
 
-class LogOutUser(Resource):
-
-    def delete(self):
-        print(cookie_date)
-        create_access_token(identity='the id')
-        return {'message': 'user logout successfully'}, 201
+class UserLogout(Resource):
+    @jwt_required
+    def post(self):
+        jti = get_jwt()['jti']  # jti is "JWT ID", a unique identifier for a JWT.
+        BLACKLIST.add(jti)
+        return {"message": "Successfully logged out"}, 200
