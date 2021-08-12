@@ -21,6 +21,8 @@ docs/_build/
 .vscode
 __pycache__
 .idea
+*.png
+*.jpg
 # Coverage reports
 htmlcov/
 .coverage
