@@ -3,6 +3,7 @@ from datetime import timedelta
 from flask import Flask
 from flask_jwt_extended import JWTManager
 from flask_restful import Api
+from flask_cors import CORS
 from .blacklist import BLACKLIST
 
 from .resources.user import RegisterUser, UserLogout,LoginUser
@@ -14,6 +15,7 @@ def create_app():
     app.config['JWT_BLACKLIST_ENABLED'] = True
     app.secret_key = 'z0=@^1&nb@67ssv1)u9%(&sz@f%6u$*69d1xpswp@50euzcmp_'
     api = Api(app)
+    cors = CORS(app)
     jwt = JWTManager(app)
 
     @jwt.token_in_blocklist_loader

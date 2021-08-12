@@ -1,6 +1,8 @@
 import base64
 import re
 from uuid import uuid4
+
+from flask_cors import cross_origin
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, get_jwt
 from flask_restful import Resource, request
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -10,6 +12,7 @@ from ..models import User
 
 # todo: mr. gachpazha --> login
 class LoginUser(Resource):
+    @cross_origin()
     def post(self):
         try:
             # extracting request data
@@ -27,6 +30,7 @@ class LoginUser(Resource):
             return {'message': 'internal error or invalid input'}, 500
 
     @jwt_required()
+    @cross_origin()
     def get(self):
         # getting user data
         user = User.objects.get(id=get_jwt_identity())
@@ -86,6 +90,7 @@ class RegisterUser(Resource):
     def get_image_extension(image):
         return image.filename[-3:]
 
+    @cross_origin()
     def post(self):
 
         request_data = {**request.form}
@@ -123,6 +128,7 @@ class RegisterUser(Resource):
 
 class UserLogout(Resource):
     @jwt_required
+    @cross_origin()
     def post(self):
         jti = get_jwt()['jti']  # jti is "JWT ID", a unique identifier for a JWT.
         BLACKLIST.add(jti)
