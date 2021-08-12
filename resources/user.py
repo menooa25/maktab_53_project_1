@@ -7,9 +7,9 @@ import base64
 import re
 from uuid import uuid4
 
-import bcrypt
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 from flask_restful import Resource, request
+from werkzeug.security import generate_password_hash
 
 from ..models import User
 
@@ -73,7 +73,7 @@ class RegisterUser(Resource):
                     return {"message": "this username exists"}, 400
 
                 password = request_data['password']
-                hashed = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+                hashed = generate_password_hash(password)
                 request_data['password'] = hashed
                 image_name = str(uuid4())
                 image_fullname = f"{image_name}.{self.get_image_extension(request.files['image'])}"
@@ -86,5 +86,6 @@ class RegisterUser(Resource):
 
                 return {'message': 'user created successfully'}, 201
             except Exception:
+                raise
                 return {'message': 'internal error happened '}, 500
         return {'message': 'please enter valid data'}, 400
