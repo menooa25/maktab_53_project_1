@@ -1,12 +1,50 @@
-import re
 import base64
+import re
 from uuid import uuid4
-from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
+
+from flask_cors import cross_origin
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, get_jwt
 from flask_restful import Resource, request
-import bcrypt
+from werkzeug.security import generate_password_hash, check_password_hash
+
 from ..models import User
 
 
+# todo: mr. gachpazha --> login
+class LoginUser(Resource):
+    @cross_origin()
+    def post(self):
+        try:
+            # extracting request data
+            request_data = {**request.form}
+            if request_data.get('username') and request_data.get('password'):
+                # checking user username and password
+                user = User.objects(username=request_data.get('username'))
+                if user and check_password_hash(pwhash=user[0].password, password=request_data.get('password')):
+                    # creating access token and returning it
+                    return {'access token': create_access_token(str(user[0].id))}, 200
+                return {"message": "user or password is incorrect"}, 400
+
+            return {'message': 'invalid input data'}, 400
+        except Exception:
+            return {'message': 'internal error or invalid input'}, 500
+
+    @jwt_required()
+    @cross_origin()
+    def get(self):
+        # getting user data
+        user = User.objects.get(id=get_jwt_identity())
+        current_user = {}
+        for key in {*user}:
+            current_user[key] = str(user[key])
+        # if the user has image it will convert to base64
+        if current_user['image']:
+            with open(f'media/users/{current_user["image"]}', 'rb') as f:
+                current_user['image'] = str(base64.b64encode(f.read()))[2:-1]
+        return current_user
+
+
+# todo: mr. noori --> register user
 
 class RegisterUser(Resource):
 
@@ -52,6 +90,7 @@ class RegisterUser(Resource):
     def get_image_extension(image):
         return image.filename[-3:]
 
+    @cross_origin()
     def post(self):
 
         request_data = {**request.form}
@@ -65,7 +104,7 @@ class RegisterUser(Resource):
                     return {"message": "this username exists"}, 400
 
                 password = request_data['password']
-                hashed = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+                hashed = generate_password_hash(password)
                 request_data['password'] = hashed
                 image_name = str(uuid4())
                 image_fullname = f"{image_name}.{self.get_image_extension(request.files['image'])}"
@@ -75,11 +114,22 @@ class RegisterUser(Resource):
                     f'media/users/{image_fullname}')
 
                 user.save()
-
                 return {'message': 'user created successfully'}, 201
             except Exception:
+
                 return {'message': 'internal error happened '}, 500
         return {'message': 'please enter valid data'}, 400
 
 
+# todo: mr. jafari --> logut
+# (must add to __init__.py)
+# app.config["JWT_ACCESS_TOKEN_EXPIRES"] = ACCESS_EXPIRES
 
+
+class UserLogout(Resource):
+    @jwt_required
+    @cross_origin()
+    def post(self):
+        jti = get_jwt()['jti']  # jti is "JWT ID", a unique identifier for a JWT.
+        BLACKLIST.add(jti)
+        return {"message": "Successfully logged out"}, 200
