@@ -8,18 +8,22 @@ from .blacklist import BLACKLIST
 
 from .resources.user import RegisterUser, UserLogout,LoginUser
 
+ACCESS_EXPIRES = timedelta(hours=1)
+
 
 def create_app():
     app = Flask(__name__)
     app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access', 'refresh']
     app.config['JWT_BLACKLIST_ENABLED'] = True
+
     app.secret_key = 'z0=@^1&nb@67ssv1)u9%(&sz@f%6u$*69d1xpswp@50euzcmp_'
     api = Api(app)
     cors = CORS(app)
     jwt = JWTManager(app)
+    app.config["JWT_ACCESS_TOKEN_EXPIRES"] = ACCESS_EXPIRES
 
     @jwt.token_in_blocklist_loader
-    def check_if_token_in_blacklist(jwt_header,decrypted_token):
+    def check_if_token_in_blacklist(jwt_header, decrypted_token):
         return decrypted_token['jti'] in BLACKLIST
 
     api.add_resource(RegisterUser, '/register_user')

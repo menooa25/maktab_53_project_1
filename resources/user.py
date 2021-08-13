@@ -6,6 +6,7 @@ from flask_cors import cross_origin
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, get_jwt
 from flask_restful import Resource, request
 from werkzeug.security import generate_password_hash, check_password_hash
+from ..blacklist import BLACKLIST
 
 from ..models import User
 
