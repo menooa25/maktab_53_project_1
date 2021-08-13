@@ -1,17 +1,29 @@
-from mongoengine import connect, Document, StringField, ReferenceField, ListField, CASCADE, EmbeddedDocument,\
+from mongoengine import connect, Document, StringField, ReferenceField, ListField, CASCADE, EmbeddedDocument, \
     EmbeddedDocumentField, EmailField
-connect('some')
-# todo: mr. gachpazha ==> User
 
+connect('maktab_53_project1')
+
+
+# todo: mr. gachpazha ==> User
 
 class User(Document):
     username = StringField(unique=True, required=True)
     password = StringField(required=True)
-    first_name = StringField(max_length=50,  required=True)
-    last_name = StringField(max_length=50,  required=True)
+    first_name = StringField(max_length=50, required=True)
+    last_name = StringField(max_length=50, required=True)
     email = EmailField()
-    phone = StringField(required=True)
+    phone = StringField(unique=True, required=True)
     image = StringField()
+
+
+# todo: mr. jafari ==> category
+
+
+class Category(Document):
+    title = StringField(max_length=150, required=True)
+    category = ReferenceField('Category', reverse_delete_rule=CASCADE)
+
+
 # todo: mr. noori with 25% of mr. jafari help ==> Post
 
 
@@ -37,11 +49,4 @@ class Post(Document):
     dislikes = ListField(EmbeddedDocumentField(Dislike))
     comments = ListField(EmbeddedDocumentField(Comment))
     user = ReferenceField(User, required=True, reverse_delete_rule=CASCADE)
-
-# todo: mr. jafari ==> category
-
-
-class Category(Document):
-    title = StringField(max_length=150, required=True)
-    post = ReferenceField(Post, reverse_delete_rule=CASCADE)
-    category = ReferenceField('Category', reverse_delete_rule=CASCADE)
+    post = ReferenceField(Category, reverse_delete_rule=CASCADE)
