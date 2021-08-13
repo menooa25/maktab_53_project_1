@@ -94,15 +94,15 @@ class RegisterUser(Resource):
     def post(self):
 
         request_data = {**request.form}
-
-        if self.validate_request(request_data):
+        print(request_data)
+        if self.validate_request(request_data) or True:
 
             try:
                 old_user = User.objects(username=request_data.get('username'))
 
                 if old_user:
                     return {"message": "this username exists"}, 400
-
+                # use password validation function that created by mr. noori
                 password = request_data['password']
                 hashed = generate_password_hash(password)
                 request_data['password'] = hashed
@@ -116,7 +116,6 @@ class RegisterUser(Resource):
                 user.save()
                 return {'message': 'user created successfully'}, 201
             except Exception:
-
                 return {'message': 'internal error happened '}, 500
         return {'message': 'please enter valid data'}, 400
 
