@@ -2,31 +2,12 @@ import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 
 class Profile extends Component {
-  getProfileData = (recived_token) => {
-    let token = `Bearer ${sessionStorage.getItem("token")}`;
-    const myheader = new Headers();
-    myheader.append("Authorization", token);
-    fetch("http://127.0.0.1:5000/login_user", {
-      method: "GET",
-      headers: myheader,
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        this.setState(res);
-        document.getElementById(
-          "profile_image"
-        ).src = `data:image/png;base64,${res.image}`;
-      });
-  };
   render() {
     if (!sessionStorage.getItem("token")) {
       return <Redirect to="login" />;
     }
     return (
       <div className="container">
-        <button onClick={this.getProfileData} className="btn btn-primary">
-          GetUserData
-        </button>
         {this.state && (
           <div className="row">
             <div className="col-6 mx-auto d-flex flex-column justify-content-center">
@@ -121,17 +102,23 @@ class Profile extends Component {
       </div>
     );
   }
-  // componentDidMount() {
-  //   const axios = require("axios").default;
-  //   axios({
-  //     method: "GET",
-  //     url: "http://127.0.0.1:5000/login_user",
-  //     headers: {
-  //       Authorization:
-  //         "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTYyODgwMjkyMSwianRpIjoiODVjOTQ3ZmMtNmY3NC00MjI1LWJhODgtOTZmMzc0OWE2MzhhIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjYxMTRmYWU5ZTEzNGNlODg5MmUzNzQ3YSIsIm5iZiI6MTYyODgwMjkyMSwiZXhwIjoxNjI4ODAzODIxfQ.YlSEUYlhUJjmjGxTniVTz0UCZ44uN0yx28aRwkn9ry8",
-  //     },
-  //   }).then((res) => console.log(res));
-  // }
+
+  componentDidMount() {
+    let token = `Bearer ${sessionStorage.getItem("token")}`;
+    const myheader = new Headers();
+    myheader.append("Authorization", token);
+    fetch("http://127.0.0.1:5000/login_user", {
+      method: "GET",
+      headers: myheader,
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        this.setState(res);
+        document.getElementById(
+          "profile_image"
+        ).src = `data:image/png;base64,${res.image}`;
+      });
+  }
 }
 
 export default Profile;

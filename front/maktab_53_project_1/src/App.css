@@ -42,3 +42,6 @@
   border-radius: 100%;
   object-fit: cover;
 }
+.cursor_pointer {
+  cursor: pointer;
+}

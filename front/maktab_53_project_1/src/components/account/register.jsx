@@ -2,11 +2,12 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
 class Register extends Component {
+  register = () => {};
   render() {
     return (
       <>
-        <div className="card bg-light">
-          <article className="card-body mx-auto" style={{ maxWidth: "400px" }}>
+        <div className="card ">
+          <article className="card-body mx-auto">
             <h4 className="card-title mt-3 text-center">Create Account</h4>
             <form
               action="http://127.0.0.1:5000/register_user"
@@ -92,7 +93,18 @@ class Register extends Component {
                     <i className="fa fa-image"></i>{" "}
                   </span>
                 </div>
-                <input name="image" className="form-control" type="file" />
+                <label
+                  htmlFor="upload_image"
+                  className="text-muted form-control cursor_pointer"
+                >
+                  Your image
+                </label>
+                <input
+                  id="upload_image"
+                  name="image"
+                  className="d-none"
+                  type="file"
+                />
               </div>
 
               <div className="form-group input-group">
@@ -118,6 +130,7 @@ class Register extends Component {
                   </span>
                 </div>
                 <input
+                  name="password2"
                   className="form-control"
                   placeholder="Repeat password"
                   type="password"
@@ -134,7 +147,6 @@ class Register extends Component {
                   Create Account
                 </button>
               </div>
-
               <p className="text-center">
                 Have an account? <Link to="/login">Log In</Link>
               </p>

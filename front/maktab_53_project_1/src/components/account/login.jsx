@@ -6,11 +6,7 @@ class Login extends Component {
   handelOnSubmit = (e) => {
     e.preventDefault();
     const current_form = e.target;
-    const username = current_form.username.value;
-    const password = current_form.password.value;
-    let form = new FormData();
-    form.set("username", username);
-    form.set("password", password);
+    let form = new FormData(current_form);
     const url = "http://127.0.0.1:5000/login_user";
     fetch(url, { method: "POST", body: form })
       .then((res) => res.json())
@@ -22,11 +18,11 @@ class Login extends Component {
 
   render() {
     if (this.state.redirect) {
-      return <Redirect to="/" />;
+      window.location.replace("/");
     }
     return (
       <>
-        <div className="card bg-light">
+        <div className="card">
           <article className="card-body mx-auto" style={{ maxWidth: "400px" }}>
             <h4 className="card-title mt-3 text-center">Login Account</h4>
             <form onSubmit={this.handelOnSubmit}>
