@@ -1,9 +1,9 @@
 import React, { Component } from "react";
+import { Redirect } from "react-router-dom";
 
 class Profile extends Component {
   getProfileData = (recived_token) => {
-    let token =
-      "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTYyODg2MzIxNCwianRpIjoiNDA1M2E5NzQtZjQyNy00Y2M2LTg3ZjItNDc2NzhhYjc1YWE2IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjYxMTViODc5YmVjYjAxZTljYmZiNjA3MCIsIm5iZiI6MTYyODg2MzIxNCwiZXhwIjoxNjI4ODY0MTE0fQ.gaDRpC2H34zftV5LAGxIUi2umh3EUQdGwH48qW97LFk";
+    let token = `Bearer ${sessionStorage.getItem("token")}`;
     const myheader = new Headers();
     myheader.append("Authorization", token);
     fetch("http://127.0.0.1:5000/login_user", {
@@ -19,6 +19,9 @@ class Profile extends Component {
       });
   };
   render() {
+    if (!sessionStorage.getItem("token")) {
+      return <Redirect to="login" />;
+    }
     return (
       <div className="container">
         <button onClick={this.getProfileData} className="btn btn-primary">

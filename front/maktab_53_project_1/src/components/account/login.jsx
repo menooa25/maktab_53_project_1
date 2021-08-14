@@ -1,17 +1,35 @@
 import React, { Component } from "react";
+import { Redirect } from "react-router-dom";
 
 class Login extends Component {
+  state = { redirect: false };
   handelOnSubmit = (e) => {
     e.preventDefault();
-    console.log(e.target);
+    const current_form = e.target;
+    const username = current_form.username.value;
+    const password = current_form.password.value;
+    let form = new FormData();
+    form.set("username", username);
+    form.set("password", password);
+    const url = "http://127.0.0.1:5000/login_user";
+    fetch(url, { method: "POST", body: form })
+      .then((res) => res.json())
+      .then((res) => {
+        sessionStorage.setItem("token", res["access token"]);
+        this.setState({ redirect: true });
+      });
   };
+
   render() {
+    if (this.state.redirect) {
+      return <Redirect to="/" />;
+    }
     return (
       <>
         <div className="card bg-light">
           <article className="card-body mx-auto" style={{ maxWidth: "400px" }}>
             <h4 className="card-title mt-3 text-center">Login Account</h4>
-            <form action="http://127.0.0.1:5000/login_user" method="POST">
+            <form onSubmit={this.handelOnSubmit}>
               <div className="form-group input-group">
                 <div className="input-group-prepend">
                   <span className="input-group-text">
