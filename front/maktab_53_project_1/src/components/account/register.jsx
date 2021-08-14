@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 class Register extends Component {
   render() {
@@ -135,7 +136,7 @@ class Register extends Component {
               </div>
 
               <p className="text-center">
-                Have an account? <a href="">Log In</a>
+                Have an account? <Link to="/login">Log In</Link>
               </p>
             </form>
           </article>

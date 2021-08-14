@@ -3,7 +3,7 @@ import React, { Component } from "react";
 class Profile extends Component {
   getProfileData = (recived_token) => {
     let token =
-      "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTYyODg1Mzk5NywianRpIjoiZWI5MTBmMDctOGQ5ZC00ZGE3LTg2N2UtNWM0ODY1ZGVlMWQzIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjYxMTViODc5YmVjYjAxZTljYmZiNjA3MCIsIm5iZiI6MTYyODg1Mzk5NywiZXhwIjoxNjI4ODU0ODk3fQ.R9BIEQsRfjCSckn4ZKXg3f6g9u-2uCaIUZqBMicbq2A";
+      "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTYyODg2MzIxNCwianRpIjoiNDA1M2E5NzQtZjQyNy00Y2M2LTg3ZjItNDc2NzhhYjc1YWE2IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjYxMTViODc5YmVjYjAxZTljYmZiNjA3MCIsIm5iZiI6MTYyODg2MzIxNCwiZXhwIjoxNjI4ODY0MTE0fQ.gaDRpC2H34zftV5LAGxIUi2umh3EUQdGwH48qW97LFk";
     const myheader = new Headers();
     myheader.append("Authorization", token);
     fetch("http://127.0.0.1:5000/login_user", {
