@@ -1,5 +1,5 @@
 from mongoengine import connect, Document, StringField, ReferenceField, ListField, CASCADE, EmbeddedDocument, \
-    EmbeddedDocumentField, EmailField, ImageField
+    EmbeddedDocumentField, EmailField, ImageField, BooleanField
 
 connect('maktab_53_project1')
 
@@ -43,7 +43,8 @@ class Dislike(EmbeddedDocument):
 class Post(Document):
     title = StringField(max_length=50, required=True)
     description = StringField(required=True)
-    image = StringField()
+    image = ImageField()
+    is_active = BooleanField(default=True)
     tags = ListField(StringField(required=True))
     likes = ListField(EmbeddedDocumentField(Like))
     dislikes = ListField(EmbeddedDocumentField(Dislike))
