@@ -29,6 +29,11 @@ class Navbar extends Component {
                 </>
               )}
             </div>
+            <div className="navbar">
+              <Link className="text-decoration-none text-dark" to="/">
+                <h3>WebsiteName</h3>
+              </Link>
+            </div>
           </div>
         </div>
       </div>

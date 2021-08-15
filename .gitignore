@@ -23,6 +23,7 @@ __pycache__
 .idea
 *.png
 *.jpg
+/media
 # Coverage reports
 htmlcov/
 .coverage

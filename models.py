@@ -1,5 +1,5 @@
 from mongoengine import connect, Document, StringField, ReferenceField, ListField, CASCADE, EmbeddedDocument, \
-    EmbeddedDocumentField, EmailField
+    EmbeddedDocumentField, EmailField, ImageField
 
 connect('maktab_53_project1')
 
@@ -49,4 +49,4 @@ class Post(Document):
     dislikes = ListField(EmbeddedDocumentField(Dislike))
     comments = ListField(EmbeddedDocumentField(Comment))
     user = ReferenceField(User, required=True, reverse_delete_rule=CASCADE)
-    post = ReferenceField(Category, reverse_delete_rule=CASCADE)
+    category = ReferenceField(Category, reverse_delete_rule=CASCADE)

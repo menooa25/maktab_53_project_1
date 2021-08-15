@@ -7,6 +7,7 @@ from flask_cors import CORS
 from .blacklist import BLACKLIST
 
 from .resources.user import RegisterUser, UserLogout,LoginUser
+from .resources.post import Post
 
 
 def create_app():
@@ -25,4 +26,5 @@ def create_app():
     api.add_resource(RegisterUser, '/register_user')
     api.add_resource(LoginUser, '/login_user')
     api.add_resource(UserLogout, '/logout')
+    api.add_resource(Post, '/create_post')
     return app

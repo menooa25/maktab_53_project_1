@@ -130,7 +130,7 @@ class Register extends Component {
                   </span>
                 </div>
                 <input
-                  name="password2"
+                  // name="password2"
                   className="form-control"
                   placeholder="Repeat password"
                   type="password"
