@@ -1,3 +1,4 @@
+from base64 import b64encode
 from mongoengine import connect, Document, StringField, ReferenceField, ListField, CASCADE, EmbeddedDocument, \
     EmbeddedDocumentField, EmailField, ImageField, BooleanField
 
@@ -43,7 +44,7 @@ class Dislike(EmbeddedDocument):
 class Post(Document):
     title = StringField(max_length=50, required=True)
     description = StringField(required=True)
-    image = ImageField()
+    image = StringField()
     is_active = BooleanField(default=True)
     tags = ListField(StringField(required=True))
     likes = ListField(EmbeddedDocumentField(Like))
@@ -51,3 +52,12 @@ class Post(Document):
     comments = ListField(EmbeddedDocumentField(Comment))
     user = ReferenceField(User, required=True, reverse_delete_rule=CASCADE)
     category = ReferenceField(Category, reverse_delete_rule=CASCADE)
+
+    def get_image(self):
+        if self.image:
+            with open(f'media/posts/{self.image}','rb') as f:
+                return str(b64encode(f.read()))
+
+    def json(self):
+        return {"id": str(self.id), "title": self.title, "description": self.description, "image": self.get_image(),
+                "is_active": self.is_active,'tags':self.tags}

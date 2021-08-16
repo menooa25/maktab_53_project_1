@@ -26,5 +26,5 @@ def create_app():
     api.add_resource(RegisterUser, '/register_user')
     api.add_resource(LoginUser, '/login_user')
     api.add_resource(UserLogout, '/logout')
-    api.add_resource(Post, '/create_post')
+    api.add_resource(Post, '/post')
     return app
