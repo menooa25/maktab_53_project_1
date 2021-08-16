@@ -125,10 +125,10 @@ class RegisterUser(Resource):
 # app.config["JWT_ACCESS_TOKEN_EXPIRES"] = ACCESS_EXPIRES
 
 
-class UserLogout(Resource):
-    @jwt_required
-    @cross_origin()
-    def post(self):
-        jti = get_jwt()['jti']  # jti is "JWT ID", a unique identifier for a JWT.
-        BLACKLIST.add(jti)
-        return {"message": "Successfully logged out"}, 200
+# class UserLogout(Resource):
+#     @jwt_required
+#     @cross_origin()
+#     def post(self):
+#         jti = get_jwt()['jti']  # jti is "JWT ID", a unique identifier for a JWT.
+#         BLACKLIST.add(jti)
+#         return {"message": "Successfully logged out"}, 200

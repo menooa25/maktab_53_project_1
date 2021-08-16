@@ -55,9 +55,9 @@ class Post(Document):
 
     def get_image(self):
         if self.image:
-            with open(f'media/posts/{self.image}','rb') as f:
+            with open(f'media/posts/{self.image}', 'rb') as f:
                 return str(b64encode(f.read()))
 
     def json(self):
         return {"id": str(self.id), "title": self.title, "description": self.description, "image": self.get_image(),
-                "is_active": self.is_active,'tags':self.tags}
+                "is_active": self.is_active, 'tags': self.tags}
