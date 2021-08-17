@@ -52,3 +52,14 @@ class Post(Resource):
         post.is_active = False
         post.save()
         return {'message': 'post deactivated'}
+
+
+class Tags(Resource):
+    def get(self):
+        tags = []
+        posts = PostModel.objects.all()
+        for post in posts:
+            tags += post.tags
+        tags_set = set(tags)
+        tags_unique_list = [tag for tag in tags_set]
+        return {'tags': tags_unique_list}
