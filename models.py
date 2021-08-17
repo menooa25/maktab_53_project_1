@@ -16,7 +16,19 @@ class User(Document):
     image = StringField()
 
 
+class Token(Document):
+    jwt_access = StringField()
+    jwt_refresh = StringField()
+    user = StringField()
+
+
+class Blacklist(Document):
+    blacklist = ListField(StringField())
+
+
+
 # todo: mr. jafari ==> category
+
 
 
 class Category(Document):

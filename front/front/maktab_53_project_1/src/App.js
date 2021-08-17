@@ -9,7 +9,7 @@ function App() {
     <>
       <Navbar />
       <Login />
-      <Profile/>
+      {/* <Profile/> */}
       {/* <Register/> */}
     </>
   );
