@@ -1,7 +1,15 @@
 import React, { Component } from "react";
+import { Button } from "reactstrap";
 
 class CreatePost extends Component {
-  state = { tags: [] };
+  state = { tags: [], modal_show: false };
+  handleAddCustomTag = () => {
+    const customTag = this.customTag.current.value;
+    if (customTag) {
+      this.state.tags.push(customTag);
+      this.setState({ tags: this.state.tags });
+    }
+  };
   fillTagsList = () => {
     fetch("http://127.0.0.1:5000/tags")
       .then((res) => res.json())
@@ -38,13 +46,14 @@ class CreatePost extends Component {
       .then((res) => res.json())
       .then((res) => alert(res.msg));
   };
+
   render() {
     return (
       <div className="container">
         <div className="row">
           <div className="col-6 mx-auto">
             <form
-              enctype="multipart/form-data"
+              encType="multipart/form-data"
               onSubmit={this.handleOnSubmit}
               className="mt-3"
             >
@@ -84,6 +93,20 @@ class CreatePost extends Component {
                       </div>
                     ))}
                 </div>
+                <div className="my-2">
+                  <Button
+                    className="btn btn-warning btn-sm"
+                    type="button"
+                    onClick={this.handleAddCustomTag}
+                  >
+                    Add custom tag
+                  </Button>
+                  <input
+                    type="text"
+                    ref={this.customTag}
+                    className="form-control d-inline"
+                  />
+                </div>
               </div>
               <div className="form-group">
                 <label htmlFor="image">Post image</label>
@@ -107,8 +130,10 @@ class CreatePost extends Component {
       </div>
     );
   }
+
   componentDidMount() {
     this.fillTagsList();
+    this.customTag = React.createRef();
   }
 }
 
