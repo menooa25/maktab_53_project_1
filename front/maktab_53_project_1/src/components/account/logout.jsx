@@ -1,5 +1,5 @@
+// todo: mr. gachpazha craete me!
 import React from "react";
-import { Redirect } from "react-router-dom";
 
 function Logout(props) {
   sessionStorage.clear();

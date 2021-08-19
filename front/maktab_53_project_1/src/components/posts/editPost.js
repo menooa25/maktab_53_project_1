@@ -1,3 +1,4 @@
+// todo: mr. noori create me!
 import React, { Component } from "react";
 
 class EditPost extends Component {
@@ -81,7 +82,7 @@ class EditPost extends Component {
       method: "PUT",
       headers: myHeader,
       body: form,
-    });
+    }).then(alert(form.get("title") + " updated"));
   };
 }
 

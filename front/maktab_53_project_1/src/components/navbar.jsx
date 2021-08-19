@@ -8,6 +8,9 @@ class Navbar extends Component {
         <div className="container">
           <div className="row flex-row justify-content-between p-3">
             <div className="navbar">
+              <Link className="nav-link" to="/">
+                Home
+              </Link>
               {!sessionStorage.getItem("token") && (
                 <>
                   <Link className="nav-link" to="/register">
@@ -20,9 +23,6 @@ class Navbar extends Component {
               )}
               {sessionStorage.getItem("token") && (
                 <>
-                  <Link className="nav-link" to="/">
-                    Home
-                  </Link>
                   <Link className="nav-link" to="/profile">
                     Profile
                   </Link>
