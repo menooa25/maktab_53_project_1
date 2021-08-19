@@ -7,6 +7,7 @@ import Register from "./components/account/register";
 import Logout from "./components/account/logout";
 import ProfilePage from "./components/account/profilePage";
 import CreatePost from "./components/posts/createPost";
+import Home from "./components/home";
 function App() {
   return (
     <>
@@ -18,6 +19,7 @@ function App() {
         <Route path="/logout" component={Logout} />
         <Route path="/profile_info" component={Profile} />
         <Route path="/create_post" component={CreatePost} />
+        <Route path="/" component={Home} />
       </Switch>
     </>
   );

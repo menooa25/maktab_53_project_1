@@ -70,10 +70,9 @@ class CreatePost extends Component {
               </div>
               <div className="form-group">
                 <label htmlFor="description">Post description</label>
-                <input
+                <textarea
                   className="form-control"
                   id="description"
-                  type="text"
                   name="description"
                   placeholder="Post description"
                   required

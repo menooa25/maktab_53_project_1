@@ -45,3 +45,7 @@
 .cursor_pointer {
   cursor: pointer;
 }
+.post_image {
+    height: 15vh;
+    object-fit: cover;
+}
