@@ -1,6 +1,7 @@
 // todo: mr. gachpazha create me!
 import React, { Component } from "react";
 import { findByDisplayValue } from "@testing-library/react";
+import { Link } from "react-router-dom";
 
 class Home extends Component {
   state = { posts: null, tags: null };
@@ -23,6 +24,7 @@ class Home extends Component {
                     {tag}
                   </option>
                 ))}
+              <option value="">all</option>
             </select>
           </div>
         </div>
@@ -32,22 +34,24 @@ class Home extends Component {
               (post) =>
                 post.is_active && (
                   <div key={post.id} className="col-3 p-2">
-                    <div className="card" style={{ height: "25vh" }}>
-                      <div className="card-header">
-                        <img
-                          src={`data:image/png;base64,${post.image}`}
-                          className="card-img post_image"
-                          alt=""
-                        />
+                    <Link to={`post/${post.id}`}>
+                      <div className="card" style={{ height: "25vh" }}>
+                        <div className="card-header">
+                          <img
+                            src={`data:image/png;base64,${post.image}`}
+                            className="card-img post_image"
+                            alt=""
+                          />
+                        </div>
+                        <div
+                          className="card-body overflow-hidden"
+                          style={{ textOverflow: "ellipsis" }}
+                        >
+                          <h5 className="text-center">{post.title}</h5>
+                          <p>{post.description}</p>
+                        </div>
                       </div>
-                      <div
-                        className="card-body overflow-hidden"
-                        style={{ textOverflow: "ellipsis" }}
-                      >
-                        <h5 className="text-center">{post.title}</h5>
-                        <p>{post.description}</p>
-                      </div>
-                    </div>
+                    </Link>
                   </div>
                 )
             )}

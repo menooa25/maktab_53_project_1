@@ -9,6 +9,7 @@ import ProfilePage from "./components/account/profilePage";
 import CreatePost from "./components/posts/createPost";
 import Home from "./components/home";
 import EditPosts from "./components/posts/editPosts";
+import Post from "./components/posts/post";
 function App() {
   return (
     <>
@@ -21,6 +22,7 @@ function App() {
         <Route path="/profile_info" component={Profile} />
         <Route path="/create_post" component={CreatePost} />
         <Route path="/edit_post" component={EditPosts} />
+        <Route path="/post/:id" component={Post} />
         <Route path="/" component={Home} />
       </Switch>
     </>
