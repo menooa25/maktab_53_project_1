@@ -20,6 +20,9 @@ class Navbar extends Component {
               )}
               {sessionStorage.getItem("token") && (
                 <>
+                  <Link className="nav-link" to="/">
+                    Home
+                  </Link>
                   <Link className="nav-link" to="/profile">
                     Profile
                   </Link>

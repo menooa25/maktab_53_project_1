@@ -12,6 +12,9 @@ class ProfilePage extends Component {
           <Link className="btn btn-primary m-2" to="create_post">
             CreatePost
           </Link>
+          <Link className="btn btn-primary m-2" to="edit_post">
+            EditPost(s)
+          </Link>
         </div>
       </div>
     );

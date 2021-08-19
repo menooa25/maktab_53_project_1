@@ -8,6 +8,7 @@ import Logout from "./components/account/logout";
 import ProfilePage from "./components/account/profilePage";
 import CreatePost from "./components/posts/createPost";
 import Home from "./components/home";
+import EditPosts from "./components/posts/editPosts";
 function App() {
   return (
     <>
@@ -19,6 +20,7 @@ function App() {
         <Route path="/logout" component={Logout} />
         <Route path="/profile_info" component={Profile} />
         <Route path="/create_post" component={CreatePost} />
+        <Route path="/edit_post" component={EditPosts} />
         <Route path="/" component={Home} />
       </Switch>
     </>
