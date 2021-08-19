@@ -3,7 +3,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from flask_restful import Resource, request
 from uuid import uuid4
 
-from ..models import User, Post as PostModel
+from ..models import User, Post as PostModel, Category
 
 
 # jaafari
@@ -85,3 +85,27 @@ class Tags(Resource):
         tags_set = set(tags)
         tags_unique_list = [tag for tag in tags_set]
         return {'tags': tags_unique_list}
+
+
+class CategoryView(Resource):
+
+    @cross_origin()
+    def get(self, _id):         # getting post id
+        category_list = []
+        post = PostModel.objects.get(id=_id)
+        category = post.category
+        category_list.append(category.title)
+        while category.category:
+            category = category.category
+            category_list.append(category.title)
+        category_list.reverse()         # list of category of post start with parents
+        return {'category_list': category_list}
+
+    @cross_origin()
+    def post(self):
+        categories = Category.objects.all()
+        all_categories = [category.title for category in categories]
+        return {'all_categories': all_categories}
+
+
+
