@@ -9,24 +9,7 @@ class Home extends Component {
     return (
       <div className="container">
         <div className="row">
-          <div className="col-4 d-flex">
-            <label htmlFor="" className="w-25 d-block">
-              Filter by
-            </label>
-            <select
-              onChange={this.handleOnChange}
-              className="form-control w-50"
-              name="tag"
-            >
-              {this.state.tags &&
-                this.state.tags.map((tag) => (
-                  <option key={tag} value={tag}>
-                    {tag}
-                  </option>
-                ))}
-              <option value="">all</option>
-            </select>
-          </div>
+          
         </div>
         <div className="row">
           {this.state.posts !== null &&
@@ -62,7 +45,9 @@ class Home extends Component {
   handleOnChange = (e) => {
     this.fetchData(e.target.value);
   };
-  
+  componentDidMount() {
+    this.fetchData("");
+  }
   fetchData = (tag_name) => {
     const myHeader = new Headers();
     myHeader.append("Content-Type", "application/json");
