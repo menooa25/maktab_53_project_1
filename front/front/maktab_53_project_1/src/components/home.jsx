@@ -59,6 +59,9 @@ class Home extends Component {
       </div>
     );
   }
+  handleOnChange = (e) => {
+    this.fetchData(e.target.value);
+  };
   
   fetchData = (tag_name) => {
     const myHeader = new Headers();
