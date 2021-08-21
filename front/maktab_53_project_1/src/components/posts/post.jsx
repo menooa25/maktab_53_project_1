@@ -25,7 +25,6 @@ class Post extends Component {
   componentDidMount() {
     this.fetchData(this.props.match.params.id);
   }
-
   fetchData = (id) => {
     const myHeader = new Headers();
     myHeader.append("Content-Type", "application/json");

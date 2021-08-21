@@ -4,7 +4,7 @@ import React, { Component } from "react";
 import { Button } from "reactstrap";
 
 class CreatePost extends Component {
-  state = { tags: [], modal_show: false };
+  state = { tags: [], modal_show: false, categories: [] };
   handleAddCustomTag = () => {
     const customTag = this.customTag.current.value;
     if (customTag) {
@@ -18,6 +18,11 @@ class CreatePost extends Component {
       .then((res) => {
         this.setState({ tags: res.tags });
       });
+  };
+  fillCategoryList = () => {
+    fetch("http://127.0.0.1:5000/category")
+      .then((res) => res.json())
+      .then((res) => this.setState({ categories: res.categories }));
   };
   getSelectedTags = () => {
     const tags_container = document.getElementById("tags");
@@ -110,6 +115,17 @@ class CreatePost extends Component {
                 </div>
               </div>
               <div className="form-group">
+                <label htmlFor="category">Category</label>
+                <select className="form-control" name="category">
+                  {this.state.categories &&
+                    this.state.categories.map((category) => (
+                      <option key={category} value={category}>
+                        {category}
+                      </option>
+                    ))}
+                </select>
+              </div>
+              <div className="form-group">
                 <label htmlFor="image">Post image</label>
                 <label htmlFor="image" className="form-control">
                   Post image
@@ -134,6 +150,7 @@ class CreatePost extends Component {
 
   componentDidMount() {
     this.fillTagsList();
+    this.fillCategoryList();
     this.customTag = React.createRef();
   }
 }
