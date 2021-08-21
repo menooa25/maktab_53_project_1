@@ -6,8 +6,9 @@ from flask_restful import Api
 from flask_cors import CORS
 from .blacklist import BLACKLIST
 
-from .resources.user import RegisterUser,LoginUser
-from .resources.post import Post, Tags
+from .resources.user import RegisterUser, LoginUser
+from .resources.post import Post, Tags, GetPost
+from .resources.category import Category
 
 
 def create_app():
@@ -20,12 +21,14 @@ def create_app():
     jwt = JWTManager(app)
 
     @jwt.token_in_blocklist_loader
-    def check_if_token_in_blacklist(jwt_header,decrypted_token):
+    def check_if_token_in_blacklist(jwt_header, decrypted_token):
         return decrypted_token['jti'] in BLACKLIST
 
     api.add_resource(RegisterUser, '/register_user')
     api.add_resource(LoginUser, '/login_user')
     # api.add_resource(UserLogout, '/logout')
     api.add_resource(Post, '/post')
-    api.add_resource(Tags,'/tags')
+    api.add_resource(Tags, '/tags')
+    api.add_resource(GetPost, '/getposts')
+    api.add_resource(Category,'/category')
     return app

@@ -3,6 +3,7 @@ import React, { Component } from "react";
 
 class EditPost extends Component {
   state = { title: "", description: "", id: "-1", is_active: false };
+
   render() {
     return (
       <div className="row">
@@ -48,8 +49,17 @@ class EditPost extends Component {
               />
             </div>
 
-            <button type="submit" className="form-control btn btn-primary">
+            <button type="submit" className=" btn btn-primary">
               Update
+            </button>
+            <button
+              type="button"
+              onClick={() =>
+                this.props.onDelete(this.state.id, this.state.title)
+              }
+              className="btn btn-danger ml-1"
+            >
+              Delete
             </button>
           </form>
           <hr />
@@ -57,6 +67,7 @@ class EditPost extends Component {
       </div>
     );
   }
+
   titleOnChange = (e) => {
     this.setState({ title: e.value });
   };
@@ -66,6 +77,7 @@ class EditPost extends Component {
   is_activeOnChange = (e) => {
     this.setState({ is_active: e.value });
   };
+
   componentDidMount() {
     this.setState(this.props.post);
   }

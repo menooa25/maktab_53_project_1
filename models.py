@@ -24,6 +24,9 @@ class Category(Document):
     title = StringField(max_length=150, required=True)
     category = ReferenceField('Category', reverse_delete_rule=CASCADE)
 
+    def json(self):
+        return self.title
+
 
 # todo: mr. noori with 25% of mr. jafari help ==> Post
 
@@ -56,7 +59,7 @@ class Post(Document):
     def get_image(self):
         if self.image:
             with open(f'media/posts/{self.image}', 'rb') as f:
-                return str(b64encode(f.read()))
+                return str(b64encode(f.read()))[2:-1]
 
     def json(self):
         return {"id": str(self.id), "title": self.title, "description": self.description, "image": self.get_image(),
