@@ -18,7 +18,8 @@ class Post extends Component {
                 <i
                   onClick={() => this.onLike(this.state.posts.id)}
                   className={
-                    "fa fa-2x cursor_pointer " + this.state.heart_class
+                    "text-danger fa fa-2x cursor_pointer " +
+                    this.state.heart_class
                   }
                 >
                   #{this.state.likes}
@@ -27,6 +28,38 @@ class Post extends Component {
               <hr />
               <h1>{this.state.posts.title}</h1>
               <p>{this.state.posts.description}</p>
+
+              {this.state.posts.comments.length !== 0 && (
+                <>
+                  <hr /> <h4>Comments</h4>
+                </>
+              )}
+              {this.state.posts.comments.map((comment, index) => (
+                <p className="bg-light rounded p-2" key={index}>
+                  {comment}
+                </p>
+              ))}
+              <hr />
+              <form onSubmit={this.onSubmitComment}>
+                <div className="form-group">
+                  <input
+                    type="text"
+                    name="id"
+                    value={this.state.posts.id}
+                    hidden
+                    readOnly
+                  />
+                  <label htmlFor="comment">Your Comment</label>
+                  <textarea
+                    className="form-control"
+                    name="comment"
+                    id="comment"
+                  />
+                  <button type="submit" className="mt-2 btn btn-primary">
+                    Send Comment
+                  </button>
+                </div>
+              </form>
             </div>
           )}
         </div>
@@ -72,6 +105,19 @@ class Post extends Component {
     })
       .then((res) => res.json())
       .then((res) => this.updateLikeStatus(res));
+  }
+
+  onSubmitComment(e) {
+    e.preventDefault();
+    const myHeader = new Headers();
+    let token = "Bearer " + sessionStorage.getItem("token");
+    myHeader.append("Authorization", token);
+    const form = new FormData(e.target);
+    fetch("http://127.0.0.1:5000/comment", {
+      method: "POST",
+      headers: myHeader,
+      body: form,
+    }).then(alert("Thanks for comment <3"));
   }
 }
 
