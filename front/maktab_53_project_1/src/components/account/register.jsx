@@ -1,18 +1,46 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 class Register extends Component {
-  register = () => {};
+  state = { error: null };
+  handleOnRegister = (e) => {
+    e.preventDefault();
+    const form = new FormData(e.target);
+    fetch("http://127.0.0.1:5000/register_user", {
+      method: "POST",
+      body: form,
+    }).then((res) => {
+      if (res.status >= 400) {
+        this.setState({ error: "This username already exists !" });
+      } else {
+        window.location = "/login";
+      }
+    });
+  };
   render() {
     return (
       <>
         <div className="card ">
           <article className="card-body mx-auto">
+            {this.state.error && (
+              <div id="alert" className="alert alert-danger">
+                {this.state.error}
+                <button
+                  type="button"
+                  className="ml-2 close"
+                  onClick={() => {
+                    document.getElementById("alert").hidden = true;
+                    this.setState({ error: null });
+                  }}
+                >
+                  <span>&times;</span>
+                </button>
+              </div>
+            )}
             <h4 className="card-title mt-3 text-center">Create Account</h4>
             <form
-              action="http://127.0.0.1:5000/register_user"
-              method="POST"
-              enctype="multipart/form-data"
+              encType="multipart/form-data"
+              onSubmit={this.handleOnRegister}
             >
               <div className="form-group input-group">
                 <div className="input-group-prepend">
@@ -138,11 +166,7 @@ class Register extends Component {
               </div>
 
               <div className="form-group">
-                <button
-                  onClick={(e) => this.handelOnSubmit(e)}
-                  type="submit"
-                  className="btn btn-primary btn-block"
-                >
+                <button type="submit" className="btn btn-primary btn-block">
                   {" "}
                   Create Account
                 </button>

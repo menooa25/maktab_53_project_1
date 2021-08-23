@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 
 class Login extends Component {
-  state = { redirect: false };
+  state = { redirect: false, error: null };
   handelOnSubmit = (e) => {
     e.preventDefault();
     const current_form = e.target;
@@ -11,8 +11,12 @@ class Login extends Component {
     fetch(url, { method: "POST", body: form })
       .then((res) => res.json())
       .then((res) => {
-        sessionStorage.setItem("token", res["access token"]);
-        this.setState({ redirect: true });
+        if (res["access token"]) {
+          sessionStorage.setItem("token", res["access token"]);
+          this.setState({ redirect: true });
+        } else {
+          this.setState({ error: res.message });
+        }
       });
   };
 
@@ -25,6 +29,21 @@ class Login extends Component {
         <div className="card">
           <article className="card-body mx-auto" style={{ maxWidth: "400px" }}>
             <h4 className="card-title mt-3 text-center">Login Account</h4>
+            {this.state.error && (
+              <div id="alert" className="alert alert-danger">
+                {this.state.error}
+                <button
+                  type="button"
+                  className="ml-2 close"
+                  onClick={() => {
+                    document.getElementById("alert").hidden = true;
+                    this.setState({ error: null });
+                  }}
+                >
+                  <span>&times;</span>
+                </button>
+              </div>
+            )}
             <form onSubmit={this.handelOnSubmit}>
               <div className="form-group input-group">
                 <div className="input-group-prepend">

@@ -47,7 +47,7 @@ class Home extends Component {
                 post.is_active && (
                   <div key={post.id} className="col-3 p-2">
                     <Link to={`post/${post.id}`}>
-                      <div className="card" style={{ height: "25vh" }}>
+                      <div className="card shadow" style={{ height: "28vh" }}>
                         <div className="card-header">
                           <img
                             src={`data:image/png;base64,${post.image}`}
@@ -56,7 +56,7 @@ class Home extends Component {
                           />
                         </div>
                         <div
-                          className="card-body overflow-hidden"
+                          className="card-body overflow-hidden pb-3"
                           style={{ textOverflow: "ellipsis" }}
                         >
                           <h5 className="text-center">{post.title}</h5>
