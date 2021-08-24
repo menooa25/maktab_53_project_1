@@ -2,9 +2,9 @@
 # For run this webapp on your system for development mode is:
 1. Clone the code
 2. type < pipenv install > for install dependencies (if you dont have pipenv install it with < pip install pipenv >)
-3. if you are on windows open cmd and type < set FLASK_APP=. >
+3. if you are on windows open cmd and type < set FLASK_APP=__init__.py >
                                            < set FLASK_ENV=development >
-   if you are on linux open terminal and type < export FLASK_APP=. >
+   if you are on linux open terminal and type < export FLASK_APP=__init__.py >
                                               < export FLASK_ENV=development >
    this will run your backend server
 3. go to front/maktab_53_project_1 folder then just type < npm install > ( you need to have node.js insttaled on your pc)
