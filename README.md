@@ -1,4 +1,4 @@
-"## light weight Blog webapp that created with flask-RESTful and react.js "
+## light weight Blog webapp that created with flask-RESTful and react.js 
 # For run this webapp on your system for development mode is:
 1. Clone the code
 2. if you are on windows open cmd and type < set FLASK_APP=. >
