@@ -8,6 +8,6 @@
                                               < export FLASK_ENV=development >
    this will run your backend server
 3. go to front/maktab_53_project_1 folder then just type < npm install > ( you need to have node.js insttaled on your pc)
-4. in front/maktab_53_project_1 folder type < npm start > and front of website will run \n
+4. in front/maktab_53_project_1 folder type < npm start > and front of website will run
 and thast it have fun :)
   
