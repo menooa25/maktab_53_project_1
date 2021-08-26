@@ -23,7 +23,7 @@ class LoginUser(Resource):
                 if user and check_password_hash(pwhash=user[0].password, password=request_data.get('password')):
                     # creating access token and returning it
                     return {'access token': create_access_token(str(user[0].id))}, 200
-                return {"message": "user or password is incorrect"}, 400
+                return {"message": "Username or password is incorrect"}, 400
 
             return {'message': 'invalid input data'}, 400
         except Exception:

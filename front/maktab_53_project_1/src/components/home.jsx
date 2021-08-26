@@ -39,6 +39,19 @@ class Home extends Component {
               <option value="">All Categories</option>
             </select>
           </div>
+          <div className="col-8 d-flex justify-content-end">
+            {/* Searching part */}
+            <form onSubmit={this.handleOnSearch} className="d-flex">
+              <input
+                type="text"
+                name="search"
+                className="form-control mx-2"
+                placeholder="Search"
+                id="search"
+              />
+              <button className="btn btn-primary">Search</button>
+            </form>
+          </div>
         </div>
         <div className="row">
           {this.state.posts !== null &&
@@ -71,6 +84,11 @@ class Home extends Component {
       </div>
     );
   }
+  handleOnSearch = (e) => {
+    e.preventDefault();
+    const search = e.target["search"].value;
+    this.fetchData("", "", search);
+  };
   handleOnChange = (e) => {
     if (e.target.name === "tag") {
       this.setState({ tag: e.target.value });
@@ -90,14 +108,18 @@ class Home extends Component {
       .then((res) => res.json())
       .then((res) => this.setState({ categories: res.categories }));
   };
-  fetchData = (tag_name, category_name = "") => {
+  fetchData = (tag_name = "", category_name = "", search = "") => {
     const myHeader = new Headers();
     myHeader.append("Content-Type", "application/json");
 
     fetch("http://127.0.0.1:5000/getposts", {
       method: "POST",
       headers: myHeader,
-      body: JSON.stringify({ tag: tag_name, category: category_name }),
+      body: JSON.stringify({
+        tag: tag_name,
+        category: category_name,
+        search: search,
+      }),
     })
       .then((res) => res.json())
       .then((res) => this.setState(res));

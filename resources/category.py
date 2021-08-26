@@ -11,7 +11,6 @@ class Category(Resource):
     def post(self):
         request_data = self.parser.parse_args()
         title = request_data.get('title')
-        print(request_data)
         if not CategoryModel.objects(title=title):
             category = CategoryModel(title=title)
             category.save()

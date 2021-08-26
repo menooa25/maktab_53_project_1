@@ -73,7 +73,8 @@ class Post(Resource):
         user = User.objects.get(id=get_jwt_identity())
         _id = request.json.get('id')
         post = PostModel.objects.get(id=_id, user=user)
-        self.delete_image(post.image)
+        if post.image:
+            self.delete_image(post.image)
         post.delete()
         return {'msg': 'post deleted'}
 
@@ -84,12 +85,20 @@ class GetPost(Resource):
     @cross_origin()
     def post(self):
         tag = request.json.get('tag')
+        category = request.json.get('category')
+        search = request.json.get('search')
         id = request.json.get('id')
+
         posts = None
         if id:
             posts = PostModel.objects(id__contains=id)
+        elif search:
+            posts = PostModel.objects(title__contains=search) or PostModel.objects(
+                description__contains=search) or PostModel.objects(tags__contains=search) or PostModel.objects(
+                category__contains=search)
         else:
-            posts = PostModel.objects(tags__contains=tag)
+            posts = PostModel.objects(tags__contains=tag, category__contains=category)
+
         post_json = [post.json() for post in posts]
         return {'posts': post_json}
 

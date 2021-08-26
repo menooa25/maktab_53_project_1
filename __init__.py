@@ -9,6 +9,7 @@ from .blacklist import BLACKLIST
 from .resources.user import RegisterUser, LoginUser
 from .resources.post import Post, Tags, GetPost
 from .resources.category import Category
+from .resources.comment import Like, Comment
 
 
 def create_app():
@@ -30,5 +31,7 @@ def create_app():
     api.add_resource(Post, '/post')
     api.add_resource(Tags, '/tags')
     api.add_resource(GetPost, '/getposts')
-    api.add_resource(Category,'/category')
+    api.add_resource(Category, '/category')
+    api.add_resource(Like, '/like')
+    api.add_resource(Comment, '/comment')
     return app
