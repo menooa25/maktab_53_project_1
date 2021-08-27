@@ -1,10 +1,9 @@
 // todo: mr. gachpazha create me!
 import React, { Component } from "react";
-import { findByDisplayValue } from "@testing-library/react";
 import { Link } from "react-router-dom";
 
 class Home extends Component {
-  state = { posts: null, tags: null };
+  state = { posts: null, tags: null, categories: null, tag: "", category: "" };
   render() {
     return (
       <div className="container">
@@ -24,8 +23,34 @@ class Home extends Component {
                     {tag}
                   </option>
                 ))}
-              <option value="">all</option>
+              <option value="">All Tags</option>
             </select>
+            <select
+              className="form-control w-50 ml-1"
+              name="category"
+              onChange={this.handleOnChange}
+            >
+              {this.state.categories &&
+                this.state.categories.map((category) => (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                ))}
+              <option value="">All Categories</option>
+            </select>
+          </div>
+          <div className="col-8 d-flex justify-content-end">
+            {/* Searching part */}
+            <form onSubmit={this.handleOnSearch} className="d-flex">
+              <input
+                type="text"
+                name="search"
+                className="form-control mx-2"
+                placeholder="Search"
+                id="search"
+              />
+              <button className="btn btn-primary">Search</button>
+            </form>
           </div>
         </div>
         <div className="row">
@@ -35,7 +60,7 @@ class Home extends Component {
                 post.is_active && (
                   <div key={post.id} className="col-3 p-2">
                     <Link to={`post/${post.id}`}>
-                      <div className="card" style={{ height: "25vh" }}>
+                      <div className="card shadow" style={{ height: "28vh" }}>
                         <div className="card-header">
                           <img
                             src={`data:image/png;base64,${post.image}`}
@@ -44,7 +69,7 @@ class Home extends Component {
                           />
                         </div>
                         <div
-                          className="card-body overflow-hidden"
+                          className="card-body overflow-hidden pb-3"
                           style={{ textOverflow: "ellipsis" }}
                         >
                           <h5 className="text-center">{post.title}</h5>
@@ -59,20 +84,42 @@ class Home extends Component {
       </div>
     );
   }
+  handleOnSearch = (e) => {
+    e.preventDefault();
+    const search = e.target["search"].value;
+    this.fetchData("", "", search);
+  };
   handleOnChange = (e) => {
-    this.fetchData(e.target.value);
+    if (e.target.name === "tag") {
+      this.setState({ tag: e.target.value });
+      this.state.tag = e.target.value;
+    } else {
+      this.setState({ category: e.target.value });
+      this.state.category = e.target.value;
+    }
+    this.fetchData(this.state.tag, this.state.category);
   };
   componentDidMount() {
+    this.fillCategoryList();
     this.fetchData("");
   }
-  fetchData = (tag_name) => {
+  fillCategoryList = () => {
+    fetch("http://127.0.0.1:5000/category")
+      .then((res) => res.json())
+      .then((res) => this.setState({ categories: res.categories }));
+  };
+  fetchData = (tag_name = "", category_name = "", search = "") => {
     const myHeader = new Headers();
     myHeader.append("Content-Type", "application/json");
 
     fetch("http://127.0.0.1:5000/getposts", {
       method: "POST",
       headers: myHeader,
-      body: JSON.stringify({ tag: tag_name }),
+      body: JSON.stringify({
+        tag: tag_name,
+        category: category_name,
+        search: search,
+      }),
     })
       .then((res) => res.json())
       .then((res) => this.setState(res));
