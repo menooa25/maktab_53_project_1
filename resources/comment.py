@@ -1,5 +1,5 @@
-from models import Comment as CommentModel
-from models import Post as PostModel
+from ..models import Comment as CommentModel
+from ..models import Post as PostModel
 from flask_cors import cross_origin
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from flask_restful import Resource, reqparse, request

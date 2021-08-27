@@ -1,4 +1,4 @@
-from models import Category as CategoryModel
+from ..models import Category as CategoryModel
 from flask_restful import Resource, request, reqparse
 from flask_cors import cross_origin
 
