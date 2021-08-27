@@ -37,7 +37,14 @@ class GetPost(Resource):
         id = request.json.get('id')
 
         posts = None
-        
+        if id:
+            posts = PostModel.objects(id__contains=id)
+        elif search:
+            posts = PostModel.objects(title__contains=search) or PostModel.objects(
+                description__contains=search) or PostModel.objects(tags__contains=search) or PostModel.objects(
+                category__contains=search)
+        else:
+            posts = PostModel.objects(tags__contains=tag, category__contains=category)
 
         post_json = [post.json() for post in posts]
         return {'posts': post_json}
