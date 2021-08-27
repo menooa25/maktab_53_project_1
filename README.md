@@ -2,7 +2,8 @@
 # For run this webapp on your system for development mode is:
 1. Clone the code
 2. type < pipenv install > for install dependencies (if you dont have pipenv install it with < pip install pipenv >)
-3. if you are on windows open cmd and type < set FLASK_APP=__init__.py >
+3. type < pipenv shell >
+4. if you are on windows open cmd and type < set FLASK_APP=__init__.py >
                                            </br>< set FLASK_ENV=development >
    if you are on linux open terminal and type < export FLASK_APP=__init__.py >
                                               </br>< export FLASK_ENV=development >
