@@ -9,7 +9,8 @@
    if you are on linux open terminal and type < export FLASK_APP=__init__.py >
                                               </br>< export FLASK_ENV=development >
    </br>this will run your backend server
-3. go to front/maktab_53_project_1 folder then just type < npm install > ( you need to have node.js insttaled on your pc)
-4. in front/maktab_53_project_1 folder type < npm start > and front of website will run
+6. type < flask run >
+7. go to front/maktab_53_project_1 folder then just type < npm install > ( you need to have node.js insttaled on your pc)
+8. in front/maktab_53_project_1 folder type < npm start > and front of website will run
 </br>and thast it have fun :)
   
