@@ -29,5 +29,17 @@ class LoginUser(Resource):
         except Exception:
             return {'message': 'internal error or invalid input'}, 500
 
-    
+    @jwt_required()
+    @cross_origin()
+    def get(self):
+        # getting user data
+        user = User.objects.get(id=get_jwt_identity())
+        current_user = {}
+        for key in {*user}:
+            current_user[key] = str(user[key])
+        # if the user has image it will convert to base64
+        if current_user['image']:
+            with open(f'media/users/{current_user["image"]}', 'rb') as f:
+                current_user['image'] = str(base64.b64encode(f.read()))[2:-1]
+        return current_user
 
