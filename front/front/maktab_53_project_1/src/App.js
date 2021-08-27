@@ -1,16 +1,30 @@
 import "./App.css";
 import Navbar from "./components/navbar";
 import Login from "./components/account/login";
-import Register from "./components/account/register";
 import Profile from "./components/account/profile";
-
+import { Route, Switch } from "react-router-dom";
+import Register from "./components/account/register";
+import Logout from "./components/account/logout";
+import ProfilePage from "./components/account/profilePage";
+import CreatePost from "./components/posts/createPost";
+import Home from "./components/home";
+import EditPosts from "./components/posts/editPosts";
+import Post from "./components/posts/post";
 function App() {
   return (
     <>
       <Navbar />
-      <Login />
-      {/* <Profile/> */}
-      {/* <Register/> */}
+      <Switch>
+        <Route path="/login" component={Login} />
+        <Route path="/register" component={Register} />
+        <Route path="/profile" component={ProfilePage} />
+        <Route path="/logout" component={Logout} />
+        <Route path="/profile_info" component={Profile} />
+        <Route path="/create_post" component={CreatePost} />
+        <Route path="/edit_post" component={EditPosts} />
+        <Route path="/post/:id" component={Post} />
+        <Route path="/" component={Home} />
+      </Switch>
     </>
   );
 }
