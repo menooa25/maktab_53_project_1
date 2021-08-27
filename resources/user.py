@@ -108,7 +108,7 @@ class RegisterUser(Resource):
                 if password1 != password2:
                     return {"message": "password does not match"}, 403
                 # use password validation function that created by mr. noori
-                password = request_data['password1']
+                password = password1
                 hashed = generate_password_hash(password)
                 request_data['password'] = hashed
                 image_name = str(uuid4())
