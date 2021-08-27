@@ -4,9 +4,9 @@
 2. for database you need to have MongoDb on your system
 3. type < pipenv install > for install dependencies (if you dont have pipenv install it with < pip install pipenv >)
 4. type < pipenv shell >
-5. if you are on windows open cmd and type < set FLASK_APP=__init__.py >
+5. if you are on windows open cmd and type < set FLASK_APP=. >
                                            </br>< set FLASK_ENV=development >
-   if you are on linux open terminal and type < export FLASK_APP=__init__.py >
+   if you are on linux open terminal and type < export FLASK_APP=. >
                                               </br>< export FLASK_ENV=development >
    </br>this will run your backend server
 6. type < flask run >
