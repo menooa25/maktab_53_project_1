@@ -10,8 +10,10 @@ class Register extends Component {
       method: "POST",
       body: form,
     }).then((res) => {
-      if (res.status >= 400) {
-        this.setState({ error: "This username already exists !" });
+      if (res.status == 400) {
+        this.setState({ error: "This username or phone already exists !" });
+      } else if (res.status == 403) {
+        this.setState({ error: "password does not match !" });
       } else {
         window.location = "/login";
       }
@@ -143,7 +145,7 @@ class Register extends Component {
                   </span>
                 </div>
                 <input
-                  name="password"
+                  name="password1"
                   className="form-control"
                   placeholder="Create password"
                   type="password"
@@ -158,7 +160,7 @@ class Register extends Component {
                   </span>
                 </div>
                 <input
-                  // name="password2"
+                  name="password2"
                   className="form-control"
                   placeholder="Repeat password"
                   type="password"
