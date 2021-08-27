@@ -1,16 +1,46 @@
 import React, { Component } from "react";
+import { Link, Redirect } from "react-router-dom";
 
 class Register extends Component {
+  state = { error: null };
+  handleOnRegister = (e) => {
+    e.preventDefault();
+    const form = new FormData(e.target);
+    fetch("http://127.0.0.1:5000/register_user", {
+      method: "POST",
+      body: form,
+    }).then((res) => {
+      if (res.status >= 400) {
+        this.setState({ error: "This username already exists !" });
+      } else {
+        window.location = "/login";
+      }
+    });
+  };
   render() {
     return (
       <>
-        <div className="card bg-light">
-          <article className="card-body mx-auto" style={{ maxWidth: "400px" }}>
+        <div className="card ">
+          <article className="card-body mx-auto">
+            {this.state.error && (
+              <div id="alert" className="alert alert-danger">
+                {this.state.error}
+                <button
+                  type="button"
+                  className="ml-2 close"
+                  onClick={() => {
+                    document.getElementById("alert").hidden = true;
+                    this.setState({ error: null });
+                  }}
+                >
+                  <span>&times;</span>
+                </button>
+              </div>
+            )}
             <h4 className="card-title mt-3 text-center">Create Account</h4>
             <form
-              action="http://127.0.0.1:5000/register_user"
-              method="POST"
-              enctype="multipart/form-data"
+              encType="multipart/form-data"
+              onSubmit={this.handleOnRegister}
             >
               <div className="form-group input-group">
                 <div className="input-group-prepend">
@@ -91,7 +121,18 @@ class Register extends Component {
                     <i className="fa fa-image"></i>{" "}
                   </span>
                 </div>
-                <input name="image" className="form-control" type="file" />
+                <label
+                  htmlFor="upload_image"
+                  className="text-muted form-control cursor_pointer"
+                >
+                  Your image
+                </label>
+                <input
+                  id="upload_image"
+                  name="image"
+                  className="d-none"
+                  type="file"
+                />
               </div>
 
               <div className="form-group input-group">
@@ -117,6 +158,7 @@ class Register extends Component {
                   </span>
                 </div>
                 <input
+                  // name="password2"
                   className="form-control"
                   placeholder="Repeat password"
                   type="password"
@@ -124,18 +166,13 @@ class Register extends Component {
               </div>
 
               <div className="form-group">
-                <button
-                  onClick={(e) => this.handelOnSubmit(e)}
-                  type="submit"
-                  className="btn btn-primary btn-block"
-                >
+                <button type="submit" className="btn btn-primary btn-block">
                   {" "}
                   Create Account
                 </button>
               </div>
-
               <p className="text-center">
-                Have an account? <a href="">Log In</a>
+                Have an account? <Link to="/login">Log In</Link>
               </p>
             </form>
           </article>
