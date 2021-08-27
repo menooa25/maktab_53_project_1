@@ -3,12 +3,11 @@ import re
 from uuid import uuid4
 
 from flask_cors import cross_origin
-from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, get_jwt,create_refresh_token
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, get_jwt
 from flask_restful import Resource, request
 from werkzeug.security import generate_password_hash, check_password_hash
-from ..blacklist import BLACKLIST
 
-from ..models import User, Token
+from ..models import User
 
 
 # todo: mr. gachpazha --> login
@@ -21,16 +20,10 @@ class LoginUser(Resource):
             if request_data.get('username') and request_data.get('password'):
                 # checking user username and password
                 user = User.objects(username=request_data.get('username'))
-                print(user[0].username)
                 if user and check_password_hash(pwhash=user[0].password, password=request_data.get('password')):
-                    access_token = create_access_token(str(user[0].id))
-                    refresh_token = create_refresh_token(str(user[0].id))
-
-                    token = Token(jwt_access=access_token, jwt_refresh=refresh_token, user=user[0].username)
-                    token.save()
                     # creating access token and returning it
-                    return {'access token': access_token, 'refresh token': refresh_token}, 200
-                return {"message": "user or password is incorrect"}, 400
+                    return {'access token': create_access_token(str(user[0].id))}, 200
+                return {"message": "Username or password is incorrect"}, 400
 
             return {'message': 'invalid input data'}, 400
         except Exception:
@@ -101,15 +94,15 @@ class RegisterUser(Resource):
     def post(self):
 
         request_data = {**request.form}
-
-        if self.validate_request(request_data):
+        print(request_data)
+        if self.validate_request(request_data) or True:
 
             try:
                 old_user = User.objects(username=request_data.get('username'))
 
                 if old_user:
                     return {"message": "this username exists"}, 400
-
+                # use password validation function that created by mr. noori
                 password = request_data['password']
                 hashed = generate_password_hash(password)
                 request_data['password'] = hashed
@@ -123,20 +116,5 @@ class RegisterUser(Resource):
                 user.save()
                 return {'message': 'user created successfully'}, 201
             except Exception:
-
                 return {'message': 'internal error happened '}, 500
         return {'message': 'please enter valid data'}, 400
-
-
-# todo: mr. jafari --> logut
-# (must add to __init__.py)
-# app.config["JWT_ACCESS_TOKEN_EXPIRES"] = ACCESS_EXPIRES
-
-
-class UserLogout(Resource):
-    @jwt_required
-    @cross_origin()
-    def post(self):
-        jti = get_jwt()['jti']  # jti is "JWT ID", a unique identifier for a JWT.
-        BLACKLIST.add(jti)
-        return {"message": "Successfully logged out"}, 200
