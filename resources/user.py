@@ -94,16 +94,21 @@ class RegisterUser(Resource):
     def post(self):
 
         request_data = {**request.form}
-        print(request_data)
         if self.validate_request(request_data) or True:
 
             try:
                 old_user = User.objects(username=request_data.get('username'))
-
+                exist_phone_number = User.objects(phone=request_data.get('phone'))
                 if old_user:
                     return {"message": "this username exists"}, 400
+                if exist_phone_number:
+                    return {"message": "this phone number already taken"}, 400
+                password1 = request_data.pop('password1')
+                password2 = request_data.pop('password2')
+                if password1 != password2:
+                    return {"message": "password does not match"}, 403
                 # use password validation function that created by mr. noori
-                password = request_data['password']
+                password = request_data['password1']
                 hashed = generate_password_hash(password)
                 request_data['password'] = hashed
                 image_name = str(uuid4())
@@ -118,7 +123,6 @@ class RegisterUser(Resource):
             except Exception:
                 return {'message': 'internal error happened '}, 500
         return {'message': 'please enter valid data'}, 400
-
 
 # todo: mr. jafari --> logut
 # (must add to __init__.py)
